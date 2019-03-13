@@ -40,9 +40,10 @@ import br.com.casadocodigo.loja.controllers.HomeController;
 import br.com.casadocodigo.loja.dao.ProdutoDAO;
 import br.com.casadocodigo.loja.infra.FileSaver;
 import br.com.casadocodigo.loja.models.CarrinhoCompras;
+import br.com.casadocodigo.loja.models.RelatorioProdutos;
 
 @EnableWebMvc
-@ComponentScan(basePackageClasses = { HomeController.class, ProdutoDAO.class, FileSaver.class, CarrinhoCompras.class })
+@ComponentScan(basePackageClasses = { HomeController.class, ProdutoDAO.class, FileSaver.class, CarrinhoCompras.class, RelatorioProdutos.class})
 @EnableCaching
 @EnableAspectJAutoProxy(proxyTargetClass = true) 
 public class AppWebConfiguration extends WebMvcConfigurerAdapter {
@@ -55,6 +56,7 @@ public class AppWebConfiguration extends WebMvcConfigurerAdapter {
 
 		// resolver.setExposeContextBeansAsAttributes(true);
 		resolver.setExposedContextBeanNames("carrinhoCompras");
+		resolver.setExposedContextBeanNames("relatorioProdutos");
 
 		return resolver;
 	}
