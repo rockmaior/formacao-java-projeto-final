@@ -40,12 +40,14 @@ import br.com.casadocodigo.loja.controllers.HomeController;
 import br.com.casadocodigo.loja.dao.ProdutoDAO;
 import br.com.casadocodigo.loja.infra.FileSaver;
 import br.com.casadocodigo.loja.models.CarrinhoCompras;
+import br.com.casadocodigo.loja.models.Pedidos;
 import br.com.casadocodigo.loja.models.RelatorioProdutos;
 
 @EnableWebMvc
-@ComponentScan(basePackageClasses = { HomeController.class, ProdutoDAO.class, FileSaver.class, CarrinhoCompras.class, RelatorioProdutos.class})
+@ComponentScan(basePackageClasses = { HomeController.class, ProdutoDAO.class, FileSaver.class, CarrinhoCompras.class,
+		RelatorioProdutos.class})
 @EnableCaching
-@EnableAspectJAutoProxy(proxyTargetClass = true) 
+@EnableAspectJAutoProxy(proxyTargetClass = true)
 public class AppWebConfiguration extends WebMvcConfigurerAdapter {
 
 	@Bean
@@ -96,15 +98,15 @@ public class AppWebConfiguration extends WebMvcConfigurerAdapter {
 				TimeUnit.MINUTES);
 		GuavaCacheManager manager = new GuavaCacheManager();
 		manager.setCacheBuilder(builder);
-		return  manager; //new ConcurrentMapCacheManager();
+		return manager; // new ConcurrentMapCacheManager();
 	}
-	
+
 	@Bean
 	public ViewResolver contentNegotiationViewResolver(ContentNegotiationManager manager) {
 		List<ViewResolver> viewResolvers = new ArrayList<>();
 		viewResolvers.add(internalResourceViewResolver());
 		viewResolvers.add(new JsonViewResolver());
-		
+
 		ContentNegotiatingViewResolver resolver = new ContentNegotiatingViewResolver();
 		resolver.setViewResolvers(viewResolvers);
 		resolver.setContentNegotiationManager(manager);
@@ -115,30 +117,30 @@ public class AppWebConfiguration extends WebMvcConfigurerAdapter {
 	public void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer) {
 		configurer.enable();
 	}
-	
+
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
 		registry.addInterceptor(new LocaleChangeInterceptor());
 	}
-	
+
 	@Bean
-	public LocaleResolver localeResolver(){
-	    return new CookieLocaleResolver();
+	public LocaleResolver localeResolver() {
+		return new CookieLocaleResolver();
 	}
-	
+
 	@Bean
 	public MailSender mailSender() {
 		JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
-		mailSender.setHost("seu servidor smtp");//por exemplo smtp.gmail.com
+		mailSender.setHost("seu servidor smtp");// por exemplo smtp.gmail.com
 		mailSender.setUsername("seu email");
 		mailSender.setPassword("sua senha");
 		mailSender.setPort(587);
-		
+
 		Properties mailProperties = new Properties();
 		mailProperties.setProperty("mail.smtp.auth", "true");
 		mailProperties.setProperty("mail.smtp.starttls.enable", "true");
 		mailSender.setJavaMailProperties(mailProperties);
-		
+
 		return mailSender;
 	}
 }
