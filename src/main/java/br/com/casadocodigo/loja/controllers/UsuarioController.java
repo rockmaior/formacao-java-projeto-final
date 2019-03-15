@@ -5,6 +5,7 @@ import java.util.List;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,16 +27,20 @@ public class UsuarioController {
 	public ModelAndView gravar(@Valid Usuario usuario, BindingResult result, 
 				RedirectAttributes redirectAttributes){
 		
-		if(result.hasErrors()) {
-			return form(usuario);
+		
+		if(!result.hasErrors()) {
+			if (usuario.getPassword().equals(usuario.getRetypePassword())) {
+				usuario.setPassword(new BCryptPasswordEncoder().encode(usuario.getPassword()));
+				dao.gravar(usuario);
+				redirectAttributes.addFlashAttribute("message", "Usuário cadastrado com sucesso!");
+				return new ModelAndView("redirect:/usuarios");
+			}
+			
 		}
 		
+		return form(usuario);
 		
-		dao.gravar(usuario);
 		
-		redirectAttributes.addFlashAttribute("message", "Usuário cadastrado com sucesso!");
-		
-		return new ModelAndView("redirect:/usuarios");
 	}
 	
 	@RequestMapping("/form")

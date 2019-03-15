@@ -1,8 +1,5 @@
 package br.com.casadocodigo.loja.controllers;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +13,6 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.ModelAndView;
 
 import br.com.casadocodigo.loja.models.Pedidos;
-import br.com.casadocodigo.loja.models.Produto;
 
 @Controller
 public class PedidosServicoController {
@@ -27,7 +23,9 @@ public class PedidosServicoController {
 
 	@RequestMapping(value = "/pedidos", method=RequestMethod.GET)
 	public ModelAndView listPedidosServico() {
-		String url = "https://book-payment.herokuapp.com/orders";
+//		String url = "https://book-payment.herokuapp.com/orders";
+		String url = "http://localhost:86/caixa/orders.json";
+
 		ResponseEntity<List<Pedidos>>responsePedidos = restTemplate.exchange(url, HttpMethod.GET, null, new ParameterizedTypeReference<List<Pedidos>>() {});
 		
 		System.out.println(responsePedidos.getBody());

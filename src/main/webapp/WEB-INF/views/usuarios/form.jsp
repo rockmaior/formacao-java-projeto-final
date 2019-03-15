@@ -21,19 +21,20 @@
 			</div>
 			<div class="form-group">
 		        <label>E-mail</label>
-				<form:textarea path="email" cssClass="form-control" />
+				<form:input path="email" cssClass="form-control" />
 		        <form:errors path="email" />
 			</div>
 			<div class="form-group">
 				<label>Senha</label>
-				<form:input path="senha" cssClass="form-control" />
-		        <form:errors path="senha" />
+				<form:password path="password" cssClass="form-control" />
+		        <form:errors path="password" />
 			</div>
-<!-- 			<div class="form-group"> -->
-<!-- 				<label>Senha repetida</label> -->
-<%-- 				<form:input path="senhaRepetida" cssClass="form-control" /> --%>
-<%-- 		        <form:errors path="senhaRepetida" /> --%>
-<!-- 			</div> -->
+			
+			<div class="form-group">
+				<label>Senha repetida</label>
+				<form:password path="retypePassword" cssClass="form-control" />
+		        <form:errors path="password" />
+			</div>
 			
 			<button type="submit" class="btn btn-primary">Cadastrar</button>
 		</form:form>

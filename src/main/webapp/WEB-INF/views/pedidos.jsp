@@ -25,7 +25,7 @@
 			</tr>
 			<c:forEach items="${pedidos }" var="pedido">
 				<tr>
-					<td>${pedido.id} }</td>
+					<td>${pedido.id }</td>
 					<td>${pedido.valor }</td>
 					<td>
 						<fmt:formatDate pattern="dd/MM/yyyy" value="${pedido.data.time }" />
