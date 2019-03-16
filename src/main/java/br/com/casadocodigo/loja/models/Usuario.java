@@ -13,6 +13,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Transient;
 
+import org.hibernate.validator.constraints.Email;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -22,11 +23,15 @@ public class Usuario implements UserDetails {
 	private static final long serialVersionUID = 1L;
 
 	@Id
+	@Email
 	private String email;
+	
 	@Column(name="senha")
 	private String password;
+	
 	@Transient
 	private String retypePassword;
+	
 	private String nome;
 
 	@ManyToMany(fetch = FetchType.EAGER)

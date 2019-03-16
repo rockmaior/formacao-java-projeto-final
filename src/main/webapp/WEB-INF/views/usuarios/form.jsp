@@ -16,23 +16,23 @@
 		<form:form action="${s:mvcUrl('UC#gravar').build() }" method="post" commandName="usuario" enctype="multipart/form-data">
 			<div class="form-group">
 				<label>Nome</label>
-				<form:input path="nome" cssClass="form-control" />
+				<form:input path="nome" cssClass="form-control"/>
 				<form:errors path="nome" />
 			</div>
 			<div class="form-group">
 		        <label>E-mail</label>
-				<form:input path="email" cssClass="form-control" />
+				<form:input path="email" cssClass="form-control"/>
 		        <form:errors path="email" />
 			</div>
 			<div class="form-group">
 				<label>Senha</label>
-				<form:password path="password" cssClass="form-control" />
+				<form:password path="password" cssClass="form-control"/>
 		        <form:errors path="password" />
 			</div>
 			
 			<div class="form-group">
 				<label>Senha repetida</label>
-				<form:password path="retypePassword" cssClass="form-control" />
+				<form:password path="retypePassword" cssClass="form-control"/>
 		        <form:errors path="password" />
 			</div>
 			
