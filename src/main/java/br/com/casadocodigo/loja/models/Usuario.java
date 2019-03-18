@@ -7,6 +7,8 @@ import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
@@ -23,21 +25,20 @@ public class Usuario implements UserDetails {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@Email
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	private long id;
+	
 	private String email;
-	
-	@Column(name="senha")
+	@Column(name = "senha")
 	private String password;
-	
+
 	@Transient
 	private String retypePassword;
-	
+
 	private String nome;
 
 	@ManyToMany(fetch = FetchType.EAGER)
-	@JoinTable(name = "Usuario_Role",
-		joinColumns = @JoinColumn(name = "email"), 
-		inverseJoinColumns = @JoinColumn(name = "role_nome"))
+	@JoinTable(name = "Usuario_Role",  joinColumns = @JoinColumn(name = "id"), inverseJoinColumns = @JoinColumn(name = "role_nome"))
 	private List<Role> roles = new ArrayList<>();
 
 	public String getEmail() {
@@ -47,7 +48,6 @@ public class Usuario implements UserDetails {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-
 
 	public String getRetypePassword() {
 		return retypePassword;
@@ -59,6 +59,14 @@ public class Usuario implements UserDetails {
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+	public long getId() {
+		return id;
+	}
+
+	public void setId(long id) {
+		this.id = id;
 	}
 
 	public String getNome() {
@@ -111,5 +119,5 @@ public class Usuario implements UserDetails {
 	public boolean isEnabled() {
 		return true;
 	}
-	
+
 }

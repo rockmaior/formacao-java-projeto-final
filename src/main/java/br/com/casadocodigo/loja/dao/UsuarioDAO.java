@@ -10,6 +10,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import br.com.casadocodigo.loja.models.Role;
 import br.com.casadocodigo.loja.models.Usuario;
 
 @Repository
@@ -37,4 +38,11 @@ public class UsuarioDAO implements UserDetailsService {
 	public List<Usuario> listar() {
 		return manager.createQuery("select distinct(u) from Usuario u", Usuario.class).getResultList();
 	}
+
+	public Usuario find(long id) {
+				return manager.createQuery("select u from Usuario u join fetch u.roles roles where u.id = :id",
+				Usuario.class).setParameter("id", id).getSingleResult();
+
+	}
+	
 }

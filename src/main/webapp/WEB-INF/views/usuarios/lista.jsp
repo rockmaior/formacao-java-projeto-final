@@ -20,12 +20,17 @@
 			<tr>
 				<th>Nome</th>
 				<th>Email</th>
+				<th>Roles</th>
+				<th></th>
 			</tr>
-			<c:forEach items="${usuarios }" var="u">
+			<c:forEach items="${usuarios }" var="usuario">
 				<tr>
-					<td>${u.nome }</td>
-					<td>${u.email }</td>
+					<td>${usuario.nome }</td>
+					<td>${usuario.email }</td>
+					<td>${usuario.roles }</td>
+					<td><a href="${s:mvcUrl('UC#detalhe').arg(0, usuario.id).build()}">edit</a></td>
 				</tr>
+				
 			</c:forEach>
 		</table>
 	</div>
