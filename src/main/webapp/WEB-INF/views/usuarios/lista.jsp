@@ -27,7 +27,11 @@
 				<tr>
 					<td>${usuario.nome }</td>
 					<td>${usuario.email }</td>
-					<td>${usuario.roles }</td>
+					
+					<c:forEach var="role" items="${usuario.roles }">
+						<td>${role }</td>
+					</c:forEach>
+					
 					<td><a href="${s:mvcUrl('UC#detalhe').arg(0, usuario.id).build()}">edit</a></td>
 				</tr>
 				

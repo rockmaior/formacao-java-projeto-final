@@ -1,5 +1,6 @@
 package br.com.casadocodigo.loja.controllers;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -74,15 +75,51 @@ public class UsuarioController {
 	
 	@RequestMapping("/detalhe/{id}")
 	public ModelAndView detalhe(@PathVariable("id") long id){
-	    ModelAndView modelAndView = new ModelAndView("usuarios/roles");
-	    Usuario usuario = dao.find(id);
-	    List<Role> roles = roleDAO.listAll();
+		ModelAndView modelAndView = new ModelAndView("usuarios/roles");
 	    
-	    System.out.println(usuario);
+//	    Recupera o usuario e suas roles do usuario
+		Usuario usuario = dao.find(id);
+	    List<Role> rolesDisponiveis = roleDAO.listAll();
 	    
+	    /**
+	     * 
+	     * List<Role> preCheckedValues = new ArrayList<Role>();
+	    for (Role role : usuarioRoles) {
+			System.out.println("Roles do Usuario: " + role.getNome());
+			preCheckedValues.add(role.getNome());
+		}
+	    usuario.setRoles(preCheckedValues);
 	    modelAndView.addObject("usuario", usuario);
+	    
+	    Roles cadastradas no banco
+	    
+	    for (Role role : rolesDisponiveis) {
+			
+		}
+			
 	    modelAndView.addObject("roles", roles);
+	     */
+	    
+	    
+	    
+	    List<Role> preCheckedVals = usuario.getRoles();		
+		usuario.setRoles(preCheckedVals);
+		
+		modelAndView.addObject("usuario", usuario);
+		
+		List<Role> roles = new ArrayList<Role>();
+		for (Role role:rolesDisponiveis){
+			roles.add(role);
+		}
+		modelAndView.addObject("roles", roles);
+	    
 	    return modelAndView;
+	}
+	
+	public void atualizarRoles(){
+		//execute atualizacao dos dados
+		//encaminha para lista chamando:
+		listar();
 	}
 
 }
