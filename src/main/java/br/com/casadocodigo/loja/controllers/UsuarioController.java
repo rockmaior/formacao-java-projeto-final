@@ -116,9 +116,11 @@ public class UsuarioController {
 	    return modelAndView;
 	}
 	
-	public void atualizarRoles(){
+	@RequestMapping(method=RequestMethod.POST)
+	public void atualizarRoles(List<Role> roles){
 		//execute atualizacao dos dados
 		//encaminha para lista chamando:
+		System.out.println(roles.toString());
 		listar();
 	}
 

@@ -14,9 +14,10 @@
 	<div class="container">
 		<h1>Cadastro de permissões para ${ usuario.nome}</h1>
 		
-<%-- 		<form:form action="${s:mvcUrl('UC#atualizarRoles').build() }" method="post" commandName="usuario"> --%>
+		<form:form action="${s:mvcUrl('UC#atualizarRoles').build() }" method="post" commandName="usuario">
+		
 
-			<form:form action="" method="post" commandName="usuario">
+<%-- 			<form:form action="" method="post" commandName="usuario"> --%>
 			
 			<div class="form-group">
 				<form:label path="roles">Permissões: </form:label>
