@@ -27,12 +27,7 @@ public class PedidosServicoController {
 		String url = "http://localhost:86/caixa/orders.json";
 
 		ResponseEntity<List<Pedidos>>responsePedidos = restTemplate.exchange(url, HttpMethod.GET, null, new ParameterizedTypeReference<List<Pedidos>>() {});
-		
-		System.out.println(responsePedidos.getBody());
-
-		
 		List<Pedidos> pedidos = responsePedidos.getBody();
-
 
 		ModelAndView modelAndView = new ModelAndView("pedidos");
 		modelAndView.addObject("pedidos", pedidos);

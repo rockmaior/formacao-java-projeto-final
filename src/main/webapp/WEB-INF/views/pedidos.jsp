@@ -31,8 +31,8 @@
 						<fmt:formatDate pattern="dd/MM/yyyy" value="${pedido.data.time }" />
 					</td>
 					<td>
-						<c:forEach items="${pedido.produtos}" var="produto">
-							${produto.titulo }
+						<c:forEach items="${pedido.produtos}" var="produto" varStatus="s">
+							${produto.titulo }<c:if test="${not s.last}">,</c:if>
 						</c:forEach>
 					</td>
 				</tr>

@@ -9,6 +9,7 @@
 
 
 <tags:pageTemplate titulo="Lista de Usuarios">
+<c:url value="/resources/imagens" var="imgPath" />
 
 	<div class="container">
 		<p class="nav-item"><a href="${s:mvcUrl('UC#form').build()}">Novo Usuário</a></p>
@@ -28,12 +29,15 @@
 					<td>${usuario.nome }</td>
 					<td>${usuario.email }</td>
 					<td>
-					<c:forEach var="role" items="${usuario.roles }" >
-						${role }
+					<c:forEach var="role" items="${usuario.roles }" varStatus="s" >
+						${role}
 					</c:forEach>
 					</td>
 					
-					<td><a href="${s:mvcUrl('UC#detalhe').arg(0, usuario.id).build()}">edit</a></td>
+					<td><a href="${s:mvcUrl('UC#detalhe').arg(0, usuario.id).build()}">
+							<img src="${imgPath}/adicionar.png" alt="Editar"> 
+						</a>
+					</td>
 				</tr>
 				
 			</c:forEach>

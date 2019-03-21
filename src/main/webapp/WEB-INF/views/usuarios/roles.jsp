@@ -7,9 +7,7 @@
 
 <%@ taglib tagdir="/WEB-INF/tags" prefix="tags"%>
 
-
 <tags:pageTemplate titulo="Editar Roles de Usuários">
-
 
 	<div class="container">
 		<h1>Cadastro de permissões para ${ usuario.nome}</h1>
