@@ -3,16 +3,22 @@ package br.com.casadocodigo.loja.controllers;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -77,51 +83,41 @@ public class UsuarioController {
 	public ModelAndView detalhe(@PathVariable("id") long id){
 		ModelAndView modelAndView = new ModelAndView("usuarios/roles");
 	    
-//	    Recupera o usuario e suas roles do usuario
-		Usuario usuario = dao.find(id);
+//	    Recupera o usuario e suas roles
+		Usuario usuario = dao.findUser(id);
 	    List<Role> rolesDisponiveis = roleDAO.listAll();
 	    
-	    /**
-	     * 
-	     * List<Role> preCheckedValues = new ArrayList<Role>();
-	    for (Role role : usuarioRoles) {
-			System.out.println("Roles do Usuario: " + role.getNome());
-			preCheckedValues.add(role.getNome());
-		}
-	    usuario.setRoles(preCheckedValues);
-	    modelAndView.addObject("usuario", usuario);
-	    
-	    Roles cadastradas no banco
-	    
-	    for (Role role : rolesDisponiveis) {
 			
-		}
-			
-	    modelAndView.addObject("roles", roles);
-	     */
-	    
-	    
-	    
-	    List<Role> preCheckedVals = usuario.getRoles();		
-		usuario.setRoles(preCheckedVals);
+	    	List<Role> checkedRoles = usuario.getRoles();		
+	    	usuario.setRoles(checkedRoles);
 		
-		modelAndView.addObject("usuario", usuario);
 		
 		List<Role> roles = new ArrayList<Role>();
 		for (Role role:rolesDisponiveis){
 			roles.add(role);
 		}
+		
+		modelAndView.addObject("usuario", usuario);
 		modelAndView.addObject("roles", roles);
-	    
 	    return modelAndView;
 	}
 	
-	@RequestMapping(method=RequestMethod.POST)
-	public void atualizarRoles(List<Role> roles){
-		//execute atualizacao dos dados
-		//encaminha para lista chamando:
-		System.out.println(roles.toString());
-		listar();
+	@RequestMapping(value="lista")
+	public ModelAndView atualizarRoles(Usuario usuario){
+		ModelAndView modelAndView = new ModelAndView("usuarios/lista");
+		
+		List<Role> rolesSelecionadas = usuario.getRoles();
+		Usuario usuarioSelecionado = dao.findUser(usuario.getId());
+		usuarioSelecionado.setRoles(rolesSelecionadas);
+		
+		System.out.println("usuario com novas roles selecionadas: " + usuario.getRoles().toString());
+		
+		dao.update(usuarioSelecionado);
+		
+		List<Usuario> usuarios = dao.listar();
+		modelAndView.addObject("usuarios", usuarios );
+		return modelAndView;
 	}
+	
 
 }

@@ -45,4 +45,14 @@ public class UsuarioDAO implements UserDetailsService {
 
 	}
 	
+	public Usuario findUser(long id) {
+		return manager.createQuery("select u from Usuario u where u.id = :id",
+		Usuario.class).setParameter("id", id).getSingleResult();
+
+}
+
+	public void update(Usuario usuarioSelecionado) {
+		manager.merge(usuarioSelecionado);
+	}
+	
 }

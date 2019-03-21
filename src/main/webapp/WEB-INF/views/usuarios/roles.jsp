@@ -14,16 +14,13 @@
 	<div class="container">
 		<h1>Cadastro de permissões para ${ usuario.nome}</h1>
 		
-		<form:form action="${s:mvcUrl('UC#atualizarRoles').build() }" method="post" commandName="usuario">
-		
-
-<%-- 			<form:form action="" method="post" commandName="usuario"> --%>
-			
+		<form:form action="${s:mvcUrl('UC#atualizarRoles').build() }" method="post" modelAttribute="usuario">
 			<div class="form-group">
 				<form:label path="roles">Permissões: </form:label>
 				<form:checkboxes path="roles"  items="${roles}" cssClass="form-control"/>
 				<form:errors path="roles" />
 			</div>
+			<form:hidden path="id" value="${usuario.id}"/>
 			
 			<button type="submit" class="btn btn-primary">Atualizar</button>
 		</form:form>
