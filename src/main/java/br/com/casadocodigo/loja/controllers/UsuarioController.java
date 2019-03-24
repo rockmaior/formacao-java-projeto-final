@@ -27,92 +27,88 @@ import br.com.casadocodigo.loja.validation.UsuarioValidator;
 @Controller
 @RequestMapping("/usuarios")
 public class UsuarioController {
-	
+
 	@Autowired
 	private UsuarioDAO dao;
-	
+
 	@Autowired
 	private RoleDAO roleDAO;
-	
-	
+
 	@InitBinder
 	public void initBinder(WebDataBinder binder) {
 		binder.addValidators(new UsuarioValidator());
 	}
-	
-	@RequestMapping(method=RequestMethod.POST)
-	public ModelAndView gravar(@Validated Usuario usuario, BindingResult result, 
-				RedirectAttributes redirectAttributes){
-		
-		
-		if(!result.hasErrors()) {
-			if (usuario.getPassword().equals(usuario.getRetypePassword())) {
-				usuario.setPassword(new BCryptPasswordEncoder().encode(usuario.getPassword()));
-				dao.gravar(usuario);
-				redirectAttributes.addFlashAttribute("message", "Usuário cadastrado com sucesso!");
-				return new ModelAndView("redirect:/usuarios");
-			}
-			
+
+	@RequestMapping(method = RequestMethod.POST)
+	public ModelAndView gravar(@Valid Usuario usuario, BindingResult result, RedirectAttributes redirectAttributes) {
+
+		if (dao.usuarioExiste(usuario.getEmail())) {
+			result.rejectValue("email", "field.email_existente");
+			return new ModelAndView("usuarios/form");
 		}
-		
+		if (!result.hasErrors()) {
+
+			usuario.setPassword(new BCryptPasswordEncoder().encode(usuario.getPassword()));
+			dao.gravar(usuario);
+			redirectAttributes.addFlashAttribute("message", "Usuário cadastrado com sucesso!");
+			return new ModelAndView("redirect:/usuarios");
+
+		}
+
 		return form(usuario);
-		
-		
+
 	}
-	
+
 	@RequestMapping("/form")
 	public ModelAndView form(Usuario usuario) {
 		ModelAndView modelAndView = new ModelAndView("usuarios/form");
 		return modelAndView;
 	}
-	
-	@RequestMapping(method=RequestMethod.GET)
+
+	@RequestMapping(method = RequestMethod.GET)
 	public ModelAndView listar() {
 		List<Usuario> usuarios = dao.listar();
 		ModelAndView modelAndView = new ModelAndView("usuarios/lista");
 		modelAndView.addObject("usuarios", usuarios);
 		return modelAndView;
 	}
-	
+
 	@RequestMapping("/detalhe/{id}")
-	public ModelAndView detalhe(@PathVariable("id") long id){
+	public ModelAndView detalhe(@PathVariable("id") long id) {
 		ModelAndView modelAndView = new ModelAndView("usuarios/roles");
-	    
+
 //	    Recupera o usuario e suas roles
 		Usuario usuario = dao.findUser(id);
-	    List<Role> rolesDisponiveis = roleDAO.listAll();
-	    
-			
-	    	List<Role> checkedRoles = usuario.getRoles();		
-	    	usuario.setRoles(checkedRoles);
-		
-		
+		List<Role> rolesDisponiveis = roleDAO.listAll();
+
+		List<Role> checkedRoles = usuario.getRoles();
+		usuario.setRoles(checkedRoles);
+
 		List<Role> roles = new ArrayList<Role>();
-		for (Role role:rolesDisponiveis){
+		for (Role role : rolesDisponiveis) {
 			roles.add(role);
 		}
-		
+
 		modelAndView.addObject("usuario", usuario);
 		modelAndView.addObject("roles", roles);
-	    return modelAndView;
+		return modelAndView;
 	}
-	
-	@RequestMapping(value="lista")
-	public ModelAndView atualizarRoles(Usuario usuario){
+
+	@RequestMapping(value = "lista")
+	public ModelAndView atualizarRoles(Usuario usuario) {
 		ModelAndView modelAndView = new ModelAndView("usuarios/lista");
-		
+
 		List<Role> rolesSelecionadas = usuario.getRoles();
 		Usuario usuarioSelecionado = dao.findUser(usuario.getId());
 		usuarioSelecionado.setRoles(rolesSelecionadas);
-		
+
 		System.out.println("usuario com novas roles selecionadas: " + usuario.getRoles().toString());
-		
+
 		dao.update(usuarioSelecionado);
-		
+
 		List<Usuario> usuarios = dao.listar();
-		modelAndView.addObject("usuarios", usuarios );
+		modelAndView.addObject("usuarios", usuarios);
 		return modelAndView;
 	}
-	
 
 }

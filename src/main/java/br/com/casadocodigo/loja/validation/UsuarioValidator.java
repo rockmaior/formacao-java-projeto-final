@@ -15,6 +15,7 @@ public class UsuarioValidator implements Validator{
 
 	@Override
 	public void validate(Object target, Errors errors) {
+		
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "nome", "field.required");
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "password", "field.required");
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "email","field.required");
@@ -26,6 +27,7 @@ public class UsuarioValidator implements Validator{
 		if (!usuario.getPassword().equals(usuario.getRetypePassword())){
 			errors.rejectValue("password", "diferentPassword", "Confirmação da senha incorreta");
 		}
+		
 
 	}
 

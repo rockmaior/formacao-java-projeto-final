@@ -54,5 +54,14 @@ public class UsuarioDAO implements UserDetailsService {
 	public void update(Usuario usuarioSelecionado) {
 		manager.merge(usuarioSelecionado);
 	}
+
+	public boolean usuarioExiste(String email) {
+		List<Usuario> usuarios = manager.createQuery("select u from Usuario u where email = :email", Usuario.class)
+				.setParameter("email", email).getResultList();
+		if (usuarios.isEmpty()) {
+			return false;
+		}
+		return true;
+	}
 	
 }

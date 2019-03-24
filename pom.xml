@@ -39,8 +39,8 @@
     <maven.compiler.target>1.8</maven.compiler.target>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     
-<!--     <spring.version>4.1.0.RELEASE</spring.version> -->
-<!--     <spring.security.version>4.0.0.RELEASE</spring.security.version> -->
+    <spring.version>4.1.0.RELEASE</spring.version>
+    <spring.security.version>4.0.0.RELEASE</spring.security.version>
     
 	<!-- https://docs.spring.io/spring-security/site/docs/4.2.6.RELEASE/reference/htmlsingle/#maven-bom -->
 	<spring.version>4.3.17.RELEASE</spring.version>
