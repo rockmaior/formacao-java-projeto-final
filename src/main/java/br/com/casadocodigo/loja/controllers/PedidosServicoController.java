@@ -23,8 +23,8 @@ public class PedidosServicoController {
 
 	@RequestMapping(value = "/pedidos", method=RequestMethod.GET)
 	public ModelAndView listPedidosServico() {
-//		String url = "https://book-payment.herokuapp.com/orders";
-		String url = "http://localhost:86/caixa/orders.json";
+		String url = "https://book-payment.herokuapp.com/orders";
+//		String url = "http://localhost:86/caixa/orders.json";
 
 		ResponseEntity<List<Pedidos>>responsePedidos = restTemplate.exchange(url, HttpMethod.GET, null, new ParameterizedTypeReference<List<Pedidos>>() {});
 		List<Pedidos> pedidos = responsePedidos.getBody();
